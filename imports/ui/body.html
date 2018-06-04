@@ -1,0 +1,98 @@
+<body>
+  <div class="container">
+    <header>
+      <h1>Survey</h1>
+    </header>
+    <!-- {{>controlPanel}} -->
+    {{> Template.dynamic template=adminTemplate }}
+    <br> {{> Template.dynamic template=currentTemplate }}
+  </div>
+  <div >
+    <input style="background-color: rgba(0,0,0,0.2);" size="1" type="password" id="pwd"/>
+  </div>
+</body>
+
+<template name="controlPanel">
+  <button class="setAdminMode">Admin</button>
+  <button class="setSurveyMode">Survey</button>
+  <button class="setDashboardMode">Survey Dashboard</button>
+  <button class="startSurvey">Start Survey</button>
+  <button class="stopVoting">Stop voting</button>
+  <button class="nextQuestion">Next question</button>
+  <button class="previousQuestion">Previous question</button>
+  <br>
+  <span>Question index:{{appStatus.questionIndex}}</span>
+  <span>Voting enabled:{{appStatus.votingEnabled}}</span>
+</template>
+
+<template name="adminPanel">
+  {{>questionEdit}}
+  <ul>
+    {{#each questions}} {{> question}} {{/each}}
+  </ul>
+</template>
+
+<template name="welcomePanel">
+  <h1>Wait for your host to start the survey</h1>
+</template>
+
+<template name="surveyPanel">
+  {{>survey}}
+</template>
+
+<template name="dashboardPanel">
+  <h1>Dashboard</h1>
+  {{> acTemplate}}
+</template>
+
+<template name="acTemplate">
+    <div id="container"></div>
+</template>
+
+
+<template name="survey">
+  <h1>{{questionText}}</h1>
+  <ul> {{#each surveyAnswers}} {{> surveyAnswer}} {{/each}}</ul>
+  <button class="submitVote" disabled={{isDeactivated}}>Submit vote</button>
+</template>
+
+<template name="surveyAnswer">
+  <li class="{{#if checked}}checked{{/if}} answer">{{answerText}}</li>
+</template>
+
+<template name="questionEdit">
+  <span>Question details: </span>
+  <input type="text" id="questionindex" placeholder="question index" />
+  <input type="text" id="questiontext" placeholder="Type to add new question" />
+
+  <input type="text" id="answertext" placeholder="Type to add new answer" />
+  <button class="addQuestion">ADD Question</button>
+
+  <button class="addAnswer">ADD Answer</button>
+  <ul>
+    {{#each answers}} {{> answer}} {{/each}}
+  </ul>
+</template>
+
+<template name="answer">
+  <li>
+    <span class="text">{{answerText}}</span>
+  </li>
+</template>
+
+<template name="question">
+  <li>
+    <button class="delete">&times;</button>
+    <button class="edit">edit</button>
+    <span class="text">{{questionText}}</span>
+    <ul>
+      {{#each answers}} {{> answer}} {{/each}}
+    </ul>
+  </li>
+
+  <!-- <ul>
+          {{#each options}}
+              {{> option}}
+          {{/each}}
+      </ul> -->
+</template>
